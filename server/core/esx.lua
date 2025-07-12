@@ -64,8 +64,14 @@ if Config.Core == "ESX" then
     end
 
     xCore.AddMoneyBankSociety = function(society, amount, reason)
-        -- I DONT KNOW MUCH ABOUT ESX, SORRY
-        lib.print.info("TODO ADD MONEY TO YOUR SOCIETY")
+        TriggerEvent('esx_addonaccount:getSharedAccount', 'society_' .. society, function(account)
+            if account then
+                account.addMoney(amount)
+                lib.print.info(("[Society: %s] Added $%s. — %s"):format(society, amount, reason or "Ukendt årsag"))
+            else
+                lib.print.error(("[Society: %s] Account couldn't be found!"):format(society))
+            end
+        end)
     end
     
     xCore.queryPlayerVehicles = function()
